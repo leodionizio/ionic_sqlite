@@ -1,14 +1,38 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="dark">
     <ion-title>
-      Ionic Blank
+      FILMES
     </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only color="secondary" (click)="onSave('create')">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <div text-center>
+    <p *ngIf="movies && movies.length == 0; else moviesList">Nenhum Filme a ser mostrado.</p>
+  </div>
+
+  <ng-template #moviesList>
+    <ion-list>
+      <ion-item-sliding detail-push *ngFor="let movie of movies" #itemSliding>
+        <ion-item (click)="onSave('update', itemSliding, movie)">
+          {{ movie.title }}
+        </ion-item>
+        <ion-item-options>
+          <button ion-button icon-only (click)="onSave('update', itemSliding, movie)">
+            <ion-icon name="create"></ion-icon>
+          </button>
+          <button ion-button icon-only color="danger" (click)="onDelete(movie)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ng-template>
+
 </ion-content>
